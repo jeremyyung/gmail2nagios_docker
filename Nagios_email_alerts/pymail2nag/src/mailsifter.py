@@ -2,7 +2,7 @@ import re
 import json
 import os
 import logging
-
+from datetime import datetime
 class GWorker:
     def __init__(self,json_file_path):
         self.out_file = json_file_path
@@ -13,9 +13,14 @@ class GWorker:
         id_chain, info_payload = self.getIDChain(headerjson,bodyjson)
         dbtext = self.getDBJSON()
         self.updateDB(id_chain, info_payload, dbtext)
-        logging.info("ID Chain:\n%s\nWritten to json db:\n%s" %
-                     (json.dumps(id_chain, indent=2), json.dumps(info_payload, indent=2))
-        )
+        print("%s: Updating %s > Host(%s) > Script(%s) in db file" % (
+            #datetime.now().time().strftime("%Y/%m/%d - %H:%M(%Z)"),
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            id_chain['origin_email'],
+            id_chain['hostname'],
+            id_chain['program']))
+        logging.info("Written to json db:\n%s" % json.dumps(info_payload, indent=2))
+
 
     def reduceHeader(self,emailjson):
         header_dict = {}
@@ -59,7 +64,6 @@ class GWorker:
                     body_dict[key] = 'UNDEFINED'
             else:
                 body_dict[key] = body_substr.group(0).strip(" \'\r")
-
         body_dict = self.doubleCheck(body_dict,btext)
 
         return body_dict

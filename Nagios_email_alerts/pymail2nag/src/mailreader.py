@@ -1,11 +1,7 @@
 import imaplib
 import logging
 import email
-# import json
-# import re
 from mailsifter import GWorker
-
-import traceback
 
 class GMailer:
     def __init__(self,url,mbname,tstat,uname,pw):

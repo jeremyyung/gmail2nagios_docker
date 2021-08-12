@@ -2,7 +2,6 @@
 import argparse
 import logging
 import os
-import time
 import sys
 import atexit
 import subprocess
