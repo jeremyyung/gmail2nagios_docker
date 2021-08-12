@@ -85,6 +85,7 @@ def setGlobalVars(url,mbname,tstat,uname,pw):
         sys.exit(1)
 
 def checkEmails(lim,jsfilepath,emlfile):
+    print("Checking emails...")
     emailer = GMailer(*envlist)
     if emlfile == "":
         emailer.login()
