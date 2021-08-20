@@ -25,12 +25,14 @@ def main():
 
     try:
         #Read config files and load their data
+        print("Generating nagios files...")
+        curdir = os.path.dirname(os.path.realpath(__file__))
         logging.info("--Reading config files.")
         nconf = configparser.ConfigParser()
-        nconf.read_file(open('nobjtemplates.cfg'))
+        nconf.read_file(open("%s/%s" % (curdir,'nobjtemplates.cfg')))
         template_text = nconf['OBJ_TEMPLATES']
 
-        nconf.read_file(open('nagmanager.cfg'))
+        nconf.read_file(open("%s/%s" % (curdir,'nagmanager.cfg')))
         g2n_path = nconf['FILE_PATHS']['g2n_file']
         nagios_dir = nconf['FILE_PATHS']['nagios_dir']
         address_map = nconf.items('ADDRESS_MAPPING')
@@ -40,6 +42,10 @@ def main():
         created_paths = makeSkeleton(nagios_dir)
         setCmdCfg(created_paths)
         makeObjects(g2n_json, created_paths)
+
+        #Check if nagios.cfg file has correct cfg_dir param set
+        checkConfig(nagios_dir,created_paths) 
+        print("Files created, please restart Nagios.")
 
     except OSError as e:
         logging.error(e)
@@ -173,6 +179,13 @@ def writeFile(fpath,text):
     file.write(text)
     file.close()
     return
+
+def checkConfig(nagios_dir,created_paths):
+    cfg_file = "%s/etc/%s" % (nagios_dir,'nagios.cfg')
+    obj_dir = created_paths['obj_directory']
+    with open(cfg_file) as f:
+      if obj_dir not in f.read():
+        logging.error("Double check %s, make sure it has 'cfg_dir=%s'." % (cfg_file,obj_dir))
 
 def wipeDir(dir_path):
     if os.path.exists(dir_path):
