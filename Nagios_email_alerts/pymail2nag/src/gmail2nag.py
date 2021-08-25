@@ -37,20 +37,44 @@ def main():
             logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
     checkPID()
     if args.def_env:
-        loadDefEnv()
+      loadDefEnv()
+    else:
+      loadEnvFile()
     envConfig()
     checkEmails(args.email_limit, args.json_db_file,args.email_file)
 
 def loadDefEnv():
     """
-    Default environment variables.
+    Loads default environment variables.
     """
-    logging.info("Loading default environment variables.")
-    os.environ['GM_URL'] = "imap.gmail.com"
-    os.environ['GM_MAILBOX_NAME'] = "monitor_spam"
-    os.environ['GM_MAIL_STATUS'] = "UNSEEN"
-    os.environ['GM_USERNAME'] = "jeremy.yung@icmanage.com"
-    os.environ['GM_API_PW'] = "zeilvzlgjqiozsxx"
+    logging.info("Using default environment variables.")
+    envjson = {
+      "GM_URL":"imap.gmail.com",
+      "GM_MAILBOX_NAME":"monitor_spam",
+      "GM_MAIL_STATUS":"UNSEEN",
+      "GM_USERNAME":"jeremy.yung@icmanage.com",
+      "GM_API_PW":"zeilvzlgjqiozsxx",
+    } 
+    setEnv(envjson)
+
+def loadEnvFile():
+    """
+    Loads environment variables in /tmp/g2n.env. Workaround for using this in a docker container.
+    """
+    logging.info("Using environment variables set in /tmp/g2n.env.")
+    envjson = {"GM_URL":"","GM_MAILBOX_NAME":"","GM_MAIL_STATUS":"","GM_USERNAME":"","GM_API_PW":""}
+    ejkeys = list(envjson.keys())
+    
+    f = open("/tmp/g2n.env")
+    for index,line in enumerate(f):
+      envjson[ejkeys[index]] = line.split()[0]
+    
+    setEnv(envjson)
+
+def setEnv(envjson):
+    logging.info("Setting environment variables.")
+    for key in envjson.keys():
+      os.environ[key] = envjson[key]
 
 def envConfig():
     """
