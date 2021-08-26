@@ -1,0 +1,2 @@
+#Cronjob that runs gmail2nag.py script
+* * * * * python3 -u /opt/gmail2nagios_docker/Nagios_email_alerts/pymail2nag/src/gmail2nag.py -j /opt/g2nout/g2n.json 2>/proc/1/fd/2 1>/proc/1/fd/1

@@ -1,0 +1,6 @@
+*.idea
+Nagios_configmgr/testdir/
+Nagios_email_alerts/old_system/
+g2n.json
+Nagios_email_alerts/pymail2nag/src/__pycache__/
+Nagios_email_alerts/pymail2nag/src/examples/

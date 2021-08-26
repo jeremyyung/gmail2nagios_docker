@@ -1,0 +1,5 @@
+#Just forms the base cent8 image used for this project
+From centos:latest
+
+RUN yum update -y; yum upgrade -y
+RUN yum install -y python3

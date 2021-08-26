@@ -1,0 +1,43 @@
+Writing custom plugins
+----------------------
+Always make sure you chmod +x the script used for plugin.
+
+Exit codes:
+To identify the status of a monitored service, Nagios runs a check plugin on it. Nagios can tell what the status of the service is by reading the exit code of the check.
+
+0 - Service is OK.
+1 - Service has a WARNING.
+2 - Service is in a CRITICAL status.
+3 - Service status is UNKNOWN.
+
+--
+https://www.geeksforgeeks.org/fetch-unseen-emails-from-gmail-inbox/?ref=lbp (instructions on how to fetch email from gmail)
+
+Go to account.google.com with your account.
+In left tabs, choose Security.
+Under Signing into Google, Choose App Password.
+Confirm your identity.
+Choose Custom.
+Choose any name for your Application and Generate the Password.
+That’s your App Password. Copy the password, we’ll be needing that. (e.g. zeilvzlgjqiozsxx)
+
+
+------
+
+VERIFY CONFIG FILES:
+/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+
+-----
+
+Where I put files within example_config:
+/usr/local/nagios/etc/icm-objects
+
+How to tell nagios where custom objects are stored:
+-vi /usr/local/nagios/etc/nagios.cfg
+#Custom Objects
+cfg_dir=/usr/local/nagios/etc/icm-objects
+
+
+---Common Errors
+* Return code of 13 for service 'check_file_rep' on host 'xsjicm03' was out of bounds
+  Usually means the script it's trying to run isn't executable. Use chmod +x

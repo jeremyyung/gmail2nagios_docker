@@ -1,0 +1,150 @@
+Delivered-To: jeremy.yung@icmanage.com
+Received: by 2002:a05:7000:6645:0:0:0:0 with SMTP id r5csp2816598mal;
+        Sun, 25 Jul 2021 12:45:04 -0700 (PDT)
+X-Received: by 2002:a17:90a:c003:: with SMTP id p3mr13837006pjt.14.1627242304556;
+        Sun, 25 Jul 2021 12:45:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1627242304; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=w7ND/dL6AKGQcis1jSPF+fXnKljlWPHc9PdY7AJgqin4g7uQrEsOcuoaG2OAxdwaru
+         NuYXXLjzlTqpDRUy1kNhSh/xQTbhAP6Y6hBKpw7Y4m4bWOR2f+HUR2DaCt1OjuUnKh+h
+         N6pAntqwQG81W4aGw3I+KJr1wsimBwRaQ3iBe6EM8g30GJq1rJ97cmLxZtWPppI/adYV
+         M6ZwxzARzva2InJg8/uF1BmILQhDD9qqlPliVolYAzNGAv5TqW57w2+KYPt0Ltemo9uR
+         VLxMkhVdBN0CmRwgGby3OgQ35CFIRcxyt3gtYuWV9/Ww3JJXTRNBe5s4a9TlYPggWH0a
+         SH9g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:from:date:message-id:subject:to
+         :mime-version:dkim-signature;
+        bh=IrckTOCqufOZMSOSvhuUzu+8WMKZ5/GIei/90XAcQm8=;
+        b=s3mUZvhgt1Fus7hfO6SYx7ByqO9MY7nrDHg0O98WARNTofsnpYfVbNNyasasgMk+V5
+         b7F2qw+5eOLdxO82D0OCm35vvfVUZJ80+E+OE2uKuEkZxo5yZNXrvJyXjn8mHKJR3kt9
+         oiEMtlHR4JGZ+bD5sFDh+xcKEHC6qR71gBwyAtL8TZs3RDqJ1MIsb97/ZhBT061Av6bU
+         NyIPy3oy8vGW0S93AANQqOmleRF8YunxqOxccs/h/5D3NFCzNUXY+eh8qDHcdFNKX6wt
+         oU6jnH/LCiPRWLftHPJS0810mRc1pMGxUj1A0jCDCQKrQse/C6kFF892d4WyWvF/zd7n
+         rh6Q==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@icmanage-com.20150623.gappssmtp.com header.s=20150623 header.b="ioKkN+/N";
+       arc=pass (i=1 spf=pass spfdomain=pglmail05.png.intel.com);
+       spf=pass (google.com: domain of icm_monitor+bncbaabbqh662dqmgqeepukf3y@icmanage.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=icm_monitor+bncBAABBQH662DQMGQEEPUKF3Y@icmanage.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE arc=pass) header.from=intel.com
+Return-Path: <icm_monitor+bncBAABBQH662DQMGQEEPUKF3Y@icmanage.com>
+Received: from mail-sor-f69.google.com (mail-sor-f69.google.com. [209.85.220.69])
+        by mx.google.com with SMTPS id s3sor6940690pfe.23.2021.07.25.12.45.04
+        for <jeremy.yung@icmanage.com>
+        (Google Transport Security);
+        Sun, 25 Jul 2021 12:45:04 -0700 (PDT)
+Received-SPF: pass (google.com: domain of icm_monitor+bncbaabbqh662dqmgqeepukf3y@icmanage.com designates 209.85.220.69 as permitted sender) client-ip=209.85.220.69;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@icmanage-com.20150623.gappssmtp.com header.s=20150623 header.b="ioKkN+/N";
+       arc=pass (i=1 spf=pass spfdomain=pglmail05.png.intel.com);
+       spf=pass (google.com: domain of icm_monitor+bncbaabbqh662dqmgqeepukf3y@icmanage.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=icm_monitor+bncBAABBQH662DQMGQEEPUKF3Y@icmanage.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE arc=pass) header.from=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=icmanage-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:to:subject:message-id:date:from:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=IrckTOCqufOZMSOSvhuUzu+8WMKZ5/GIei/90XAcQm8=;
+        b=ioKkN+/NpWM0i+X6tq00qVMdTw2J1pIXx5qSRBzsN4IDbfB70QDmots1QW1LSZVpmP
+         bwFkGNlYj6Sg9dDjHgVoi2W5IGpp7qQ9nr2/qz9ZfiJDWamZB80uNeo/2VERAWosysse
+         Q0U4294WkwfVRhgzDDpHzlkwG6YXYtogyVFeI+dUW5PoKwa7V9sih+5rA7/yLqBx6rlK
+         E+IwYle/S2DSLDRY2yfuQvpn+3ZG79MKM/0NSH6PNmv0WDvXBWCpL1K6AuTws2bTB05x
+         sqdlIsQZI9KVCIuwBnWdMKcg0pEQFTm9iiO8pG2onjd646BN2dvzOwU0TvDUY9Q9LuFQ
+         OK4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:to:subject:message-id:date:from
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=IrckTOCqufOZMSOSvhuUzu+8WMKZ5/GIei/90XAcQm8=;
+        b=NY4rjuL7yz9HDxhDj+V4xIaxPXq5M4zys/X78tXMlV21tUl4XC+r9IrBuhd078Xsun
+         /XiyRvEBglfXpgkTSOuq45l3gvjRGGiu3CJfWA44BOY7B2j0JyOlCuELTiLtW2xofmyq
+         vskG0IBXHMc+wGbnG64IwGeBWBQUBUcfy+CakjkdlVyk+qM6d/noFeZWkd/YhFQYlMvG
+         dQi0Q2LsjzSgsHYt8T0vc/zhV3BLuu6jIpr9hp0YCAXOXBffBv4cWS95uQhVGfL2eke1
+         ikYzxLxRygz3SLxWPVNftPJc7IQ1AYQe94hIBIDFIBy3il42A49G9FJPCw7IAHvJx0EU
+         e4mQ==
+X-Gm-Message-State: AOAM532Q0/XHF1XYFEdzjtYYNrtzHNV40b/dDEgz5g7oTbn2OxkGxBvO
+	mgI/kAtgOiOWXyNO8xK5Gjur2SRJ
+X-Google-Smtp-Source: ABdhPJyCk+EcoNEbk6RjEPTJy631V5rEo/AxczG0aLNqGc6099GOY1oj1E97rYnGBb622v40SkSAjA==
+X-Received: by 2002:a65:6a52:: with SMTP id o18mr14899275pgu.414.1627242304276;
+        Sun, 25 Jul 2021 12:45:04 -0700 (PDT)
+MIME-Version: 1.0
+X-BeenThere: icm_monitor@icmanage.com
+Received: by 2002:a63:5b46:: with SMTP id l6ls7823468pgm.0.gmail; Sun, 25 Jul
+ 2021 12:45:03 -0700 (PDT)
+X-Received: by 2002:a62:160a:0:b029:328:56b9:b1ee with SMTP id 10-20020a62160a0000b029032856b9b1eemr14645117pfw.52.1627242303676;
+        Sun, 25 Jul 2021 12:45:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1627242303; cv=none;
+        d=google.com; s=arc-20160816;
+        b=kkJiwE33yoBGbcH9Rd0krXzU1ehOdbiuIBu31XDZdyr4uooDOA/ZGAtQpBBVaLmuBD
+         7jK/XozrtH/mpxqLnaKkd7Th8FGyzgIYenXr94+ZKi1kCATYDjXen5CJO8Cs2x9eEKP/
+         InY2pbSFQVvHkRIW5weM4wFwFMq6KVMztQeBsb3XoGoODVikD9AZ7hjHXr0CHM8Jc9Km
+         4nbcwlFtoUMXCmlC/+1smzeBuyy1WUw9j6ovkBTzSCpSvqBmIeBW4HNpnHTj4Gcfew2v
+         zdg0HwjWU/9MG9mpmSwSP/dF/b+FLllnAcxSYQ3i8KLPxrKtejsauFFXj9riO+HLlpPr
+         Yixg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=from:date:message-id:subject:to;
+        bh=IrckTOCqufOZMSOSvhuUzu+8WMKZ5/GIei/90XAcQm8=;
+        b=CvBE0DKAnx12quXmuOt2hs00ySxw9qSwpJD/JwMfwBaLolL/4SRfGD5fAoZMYG5V+d
+         IAakc7giBxf9DUXFRsQ8gesLhMsVEnh+3YV0tRI3KvzH3UZlKYR3ChXw03366jz0L8V7
+         7wps+pl7p5IDNZYwH7J7faCt3WZZKsZOxx1nB6dIiiNAGiWblvPyPv8ZWV+FuncxOcVR
+         hoZP+Ib20bD8WrmxisrZz9PH0YvxmvZIQwFt16b5fbZsY+nfDuM2Il+4lv4zoMaRyT88
+         SlEz7wA6Xkicmqpx+s1Kjax3vczm6ygmgez1eQ1jyff+I8ZxuPfLFe8Yy70HNcmCYufr
+         5DUA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: best guess record for domain of icmanage@pglmail05.png.intel.com designates 192.55.52.88 as permitted sender) smtp.mailfrom=icmanage@pglmail05.png.intel.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga01.intel.com (mga01.intel.com. [192.55.52.88])
+        by mx.google.com with ESMTPS id l3si9575228plh.433.2021.07.25.12.45.03
+        for <icm_monitor@icmanage.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 25 Jul 2021 12:45:03 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of icmanage@pglmail05.png.intel.com designates 192.55.52.88 as permitted sender) client-ip=192.55.52.88;
+X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="233971744"
+X-IronPort-AV: E=Sophos;i="5.84,269,1620716400"; 
+   d="scan'208";a="233971744"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2021 12:45:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,269,1620716400"; 
+   d="scan'208";a="661617205"
+Received: from pglmail05.png.intel.com ([172.30.244.22])
+  by fmsmga006.fm.intel.com with ESMTP; 25 Jul 2021 12:45:02 -0700
+Received: from localhost (pglicm02.png.intel.com [10.126.64.141])
+	by pglmail05.png.intel.com with ESMTP id 16PJj1eL030930
+	for <icm_monitor@icmanage.com>; Mon, 26 Jul 2021 03:45:01 +0800
+Received: by localhost (Postfix, from userid 32907)
+	id 741071005241; Mon, 26 Jul 2021 03:45:01 +0800 (+08)
+To: icm_monitor@icmanage.com
+Subject: Disk over 85% full on pglicm02
+Message-Id: <20210725194501.741071005241@localhost>
+Date: Mon, 26 Jul 2021 03:45:01 +0800 (+08)
+From: icmanage <icmanage@ecsmtp.png.intel.com>
+X-Original-Sender: icmanage@ecsmtp.png.intel.com
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ best guess record for domain of icmanage@pglmail05.png.intel.com designates
+ 192.55.52.88 as permitted sender) smtp.mailfrom=icmanage@pglmail05.png.intel.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Precedence: list
+Mailing-list: list icm_monitor@icmanage.com; contact icm_monitor+owners@icmanage.com
+List-ID: <icm_monitor.icmanage.com>
+X-Spam-Checked-In-Group: icm_monitor@icmanage.com
+X-Google-Group-Id: 391206100820
+List-Post: <https://groups.google.com/a/icmanage.com/group/icm_monitor/post>, <mailto:icm_monitor@icmanage.com>
+List-Help: <https://support.google.com/a/icmanage.com/bin/topic.py?topic=25838>,
+ <mailto:icm_monitor+help@icmanage.com>
+List-Archive: <https://groups.google.com/a/icmanage.com/group/icm_monitor/>
+List-Subscribe: <https://groups.google.com/a/icmanage.com/group/icm_monitor/subscribe>,
+ <mailto:icm_monitor+subscribe@icmanage.com>
+List-Unsubscribe: <mailto:googlegroups-manage+391206100820+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/icmanage.com/group/icm_monitor/subscribe>
+
+WARNING: filesystem over 85% full
+FILESYSTEM               MOUNTPOINT               PCT FULL            SIZE           AVAILABLE      
+/dev/mapper/vg0-infrastructure/infrastructure          93                  35T            2.8T           
+
+Sent by
+Host:    pglicm02
+User:    icmanage
+Program: check_space

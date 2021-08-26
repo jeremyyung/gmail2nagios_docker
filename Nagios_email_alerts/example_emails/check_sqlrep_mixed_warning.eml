@@ -1,0 +1,255 @@
+Delivered-To: jeremy.yung@icmanage.com
+Received: by 2002:a05:7000:9e9d:0:0:0:0 with SMTP id dw29csp903745mab;
+        Thu, 15 Jul 2021 15:09:26 -0700 (PDT)
+X-Received: by 2002:a17:90a:de16:: with SMTP id m22mr47405pjv.54.1626386965938;
+        Thu, 15 Jul 2021 15:09:25 -0700 (PDT)
+ARC-Seal: i=4; a=rsa-sha256; t=1626386965; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=sbANu9/2rEkEN59uqvJBvK/SyLSiAJ14tPAr1FV19VowCB8EvRUz6Hh0x18QyLYiC+
+         U2PhAk17BTCyIuE2oVLzLS5FKcNa3/JNjRTGNRyglWxlRqGetZh3PaTRBHLcQ/mAHQyo
+         9f9P9C1VRkVJh//HQoQjmjsAro1GqwPjY1iZTphd/9ARXCYMS3ap+g78ujzozFzGk8o6
+         vKFriHgciWzfq63ot75gIkKOY7ydGfVW9TWgykBhvWhtluyt0uUD9tBBYM76U4fFAx5n
+         dSVu2Ihj9/TqbWBG35AIGhZhKDz8gmhnOSjEUWEzeG89AM+Gjys+PGmltxiByMxRMncy
+         cd3A==
+ARC-Message-Signature: i=4; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:from:date:message-id:subject:to:envelope-to
+         :dkim-signature;
+        bh=2nVdsKg52EKFtrIzMTrdXbCEyHanF/Xj2LSIdWzuxnM=;
+        b=iMGl2eeVi+GIjghKy24u4F6CIPMlhwVAi1MSX7RPF15u4ovjYgVbMcjAwxee2KaMjM
+         jf0fnq1k3j6SJPdbltTEy3EpULSR3p9GskR1en8+0n2AaSWzX9M5esNYLLjvUUoUokdi
+         m5fwxZTjaYPUDg6RbMY5YKJmcf9GSGl/7td2rr67pZiMrI56CWWaIYws0MwWD8e7ii22
+         OppVQ05633CnJsrrsjSravb7waa/V+8isvkTmCV2uRBO5DfqCm6k4BSroPqxNe5lfXzv
+         X/Zmw5DIC3WrgiAuoQM9EkhuOZaMKBGQWnMOpdCxeNWgqoOaHajY1J3VAQaKr5eK8RAC
+         C7lg==
+ARC-Authentication-Results: i=4; mx.google.com;
+       dkim=pass header.i=@icmanage-com.20150623.gappssmtp.com header.s=20150623 header.b="rr92Alt/";
+       arc=pass (i=3 spf=pass spfdomain=xilinx.com dkim=pass dkdomain=xilinx.onmicrosoft.com dmarc=pass fromdomain=xilinx.com);
+       spf=pass (google.com: domain of icm_monitor+bncbaabbfpeykdqmgqe6nxcu4q@icmanage.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=icm_monitor+bncBAABBFPEYKDQMGQE6NXCU4Q@icmanage.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE arc=pass) header.from=xilinx.com
+Return-Path: <icm_monitor+bncBAABBFPEYKDQMGQE6NXCU4Q@icmanage.com>
+Received: from mail-sor-f69.google.com (mail-sor-f69.google.com. [209.85.220.69])
+        by mx.google.com with SMTPS id u65sor1972258pgc.24.2021.07.15.15.09.25
+        for <jeremy.yung@icmanage.com>
+        (Google Transport Security);
+        Thu, 15 Jul 2021 15:09:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of icm_monitor+bncbaabbfpeykdqmgqe6nxcu4q@icmanage.com designates 209.85.220.69 as permitted sender) client-ip=209.85.220.69;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@icmanage-com.20150623.gappssmtp.com header.s=20150623 header.b="rr92Alt/";
+       arc=pass (i=3 spf=pass spfdomain=xilinx.com dkim=pass dkdomain=xilinx.onmicrosoft.com dmarc=pass fromdomain=xilinx.com);
+       spf=pass (google.com: domain of icm_monitor+bncbaabbfpeykdqmgqe6nxcu4q@icmanage.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=icm_monitor+bncBAABBFPEYKDQMGQE6NXCU4Q@icmanage.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE arc=pass) header.from=xilinx.com
+ARC-Seal: i=3; a=rsa-sha256; t=1626386965; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=GRhp1NHhuTjmao+Fqi37DGi4QswZI612KeheDk+7yRo8XyfQ6GE+lTH2hL1H8k6zbp
+         OStG02YcPgjstVdMsjmbAnvfeR9EXdWvjcYODGVYUeFqBXyvqD/bgl6mDS/a/L3Xam2f
+         GowTm3yqGucnWbqSD5HXpXTNuhCryGU/OmrMHWWz/pFC9ZPRvr9DI/7ihOt34y7W06pM
+         IJq6BUVAsjUnF3oPgbNZP7ezz9AtZO7c7aulgbvpTcaWPRvsZQWiPNQwpAS2V2Zxl7tg
+         CWVXO55A/Zy6AQPb03lTkKtiz0tTL7LalLxeo0nLwR6TUwwtJUUEfRpCG2HQL7ROXdQc
+         iKQA==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:from:date:message-id:subject:to:envelope-to
+         :dkim-signature;
+        bh=2nVdsKg52EKFtrIzMTrdXbCEyHanF/Xj2LSIdWzuxnM=;
+        b=0VolJpnb8N1L7nIj8NH39nECKq0p2dCqbXZM43ch3SkusrPSxFsjsKL/Az/wnhLtyt
+         c0kFVx20+pmIGunMfuNTDKD6tqLlsdZZ3e7+hCLliMTJ6OZxCn3EzPTAA+9vYN2N2156
+         FALl6cJHHRyM7mR30Ftq92l1Dxi+ixNDJgZtfwSphWA5/GzYsJHKTn5crKJeTZqPUILF
+         +t3xFlcjyJiyD3jaewvmgGGjNDXhQeQTuPfTeNqsHY+uPppdzMChxnz7CJAceM6fNa3U
+         TKoryEQxnYZUSsZhHUpNN1MLS29lULt9dQDFVqQBgT/+d1ezpzrIWPAQx4mxW4VBA2jo
+         vntw==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=B42MNjvi;
+       arc=pass (i=1 spf=pass spfdomain=xilinx.com dmarc=pass fromdomain=xilinx.com);
+       spf=pass (google.com: domain of icmanage@xilinx.com designates 40.107.101.75 as permitted sender) smtp.mailfrom=icmanage@xilinx.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xilinx.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=icmanage-com.20150623.gappssmtp.com; s=20150623;
+        h=envelope-to:to:subject:message-id:date:from:mime-version
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=2nVdsKg52EKFtrIzMTrdXbCEyHanF/Xj2LSIdWzuxnM=;
+        b=rr92Alt//Y50HQmAz3/j676DYdg/Zi+n4RDG6f880GqzKelqGY0tFD+jJ0st/qiLrT
+         nVgf50irBf1OdrQ1CnTMkywoFuGs2L4RxdkX3LQJ1tAC5CfIgA0yC9c1f3mMObHwHfzI
+         cvcnbkDAGmWD6uAX/S7zQ4VcwiafE2KkZM40TzjEGUlZ5unPxxD4YvNe5kl6zDmRWz8o
+         G5Wb4sSPSkdL2XpDSeiAhQlnr2QlA/BCewkLMtnguTZ53Z5hFnqj4TSPM5ail0KTFv6Y
+         gcD2sJ3Uuea9EPKfxqsjRsQqBzG6wmYrC+OA3Y8cSrqrPlOZp+5Dd5QaEOtJSjGg5bhz
+         4kvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:envelope-to:to:subject:message-id:date:from
+         :mime-version:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=2nVdsKg52EKFtrIzMTrdXbCEyHanF/Xj2LSIdWzuxnM=;
+        b=kT4ljk1loGkdnJFPsXNNM/OjGMXoTMtDmT0PPF65GxcupdjLknqKNW7sFbMCMLo3g8
+         fIuH4BllehpTuNF3E6e1DdZpxc4Rop0J/ABBgTDtTjC5GCvlsb2FKdEMFKwckNq1ApqI
+         MtCFNbsYmm2fFW1vhP8/qZPNtFu80pTBg5sr6Ur7PlirPUYIRUGR3MT0aruQkdajzcFW
+         q9OIIXOaRNBkZg/RwV8KCTk7P3OfFLc6tNNW5roInq2XseM98gP2HVyYV41xpZj8Lejf
+         Y7+qkwYsE+5D5seErIkTSK3sxLtOimfwIUczhxwYHqiOQbrbGKDZuGJxDTl0/e8KRJk5
+         2ZTQ==
+X-Gm-Message-State: AOAM530nezEykUkZ8+k+O1vqIJAfSjd6EpdIOcSG+icoO8OQ9sai5vv3
+	HTfgNHG6TFDj16K36Lrk0Eh1mqQ9
+X-Google-Smtp-Source: ABdhPJyMO30nDetRy9FZObnf6aNcbVpor71QQO3Uyh57fsk/uQbNLhw3xDWW09hqpfR27sheWyLBbQ==
+X-Received: by 2002:a63:791:: with SMTP id 139mr6552974pgh.147.1626386965692;
+        Thu, 15 Jul 2021 15:09:25 -0700 (PDT)
+X-BeenThere: icm_monitor@icmanage.com
+Received: by 2002:a17:90a:c241:: with SMTP id d1ls4484104pjx.1.canary-gmail;
+ Thu, 15 Jul 2021 15:09:25 -0700 (PDT)
+X-Received: by 2002:a17:90a:510d:: with SMTP id t13mr11992931pjh.28.1626386965191;
+        Thu, 15 Jul 2021 15:09:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1626386965; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=XqgD2YsE29BB7zsnDd6VXRtlXXYyaQwIt6GMV2sVL91pz5EBZdoFzvZrGWKE4v3fQd
+         BtwXZT1b+ZCMDE/sCZafMGc4jOposgQ9tnPWEpSTtrca4fGkBgLpeMWS0gliOVxf2DMO
+         lYQlKeUZbslw7m+4Rlx8ueuLZ7u05ca1Km/A1TTohU/3SGQg+fhUpJGB9PlFQ5TEktRm
+         3G9Xz407PcF/wC8iHDchHr1U8JWPPaQZaSB/trwJkAEn9b6KyZ60xSZjurU8JywpMUfZ
+         JP0ftIDo1YnWAObEVuX5g2wsbmlrccpHmDvXheQ4hb62RjrmmJs/RjHvWrdP/RcByjOR
+         74Ew==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:from:date:message-id:subject
+         :to:envelope-to:dkim-signature;
+        bh=2nVdsKg52EKFtrIzMTrdXbCEyHanF/Xj2LSIdWzuxnM=;
+        b=AMX+vL1TvZsfzd8ONeHUgQMRkA1yDbkDI3CN8rNRp2ak1OrUYGi4AMnRQtZ+5HySFv
+         QxCgNXyGcwDmdgpc2mfi9Ql5K1phX06X5DDG51vfj8nJX5qfh5J287NHfjkoojaWxg9C
+         DgSXI0OHDbWWVCg8SI71YnN9AkWbkFG72qiLvDhS40X51GI7ghS/Qb0AbeP/tbD4HFmh
+         xUJ6C0AFko+6goj325fhVUbXigBWH+DXBqo69N8TsGobSjg0D1XN8WY/eeCSSvELvHBi
+         ZSuUt+s9BGwr9h82LCOJFyQj7RZcv3Aq+ruB75OybWdIs4vfOdiiucFSM74yt5fbaMaO
+         WXMw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=B42MNjvi;
+       arc=pass (i=1 spf=pass spfdomain=xilinx.com dmarc=pass fromdomain=xilinx.com);
+       spf=pass (google.com: domain of icmanage@xilinx.com designates 40.107.101.75 as permitted sender) smtp.mailfrom=icmanage@xilinx.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xilinx.com
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam08on2075.outbound.protection.outlook.com. [40.107.101.75])
+        by mx.google.com with ESMTPS id h22si1406087pgl.408.2021.07.15.15.09.25
+        for <icm_monitor@icmanage.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 15 Jul 2021 15:09:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of icmanage@xilinx.com designates 40.107.101.75 as permitted sender) client-ip=40.107.101.75;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YZ4AwRS+2+fK1ThezoqhoKJNAlyOp9d8+7/6Cc0UAHtjVpl57B0HRvhQ1n9uwIKRN4rLHUXqS2aSOGojd5LBX0BbCIDnmkG5qVm9F/EVa2Ex+ZDdjSSZOt8S7J8CHX5M3jrpuV3wmjn24HEUPEuf0I+Au5t9POwRct+jvKVgoLWKRJipQXyT6FN5xDFrbYXapJdduZKQ6XtZzh2PY2rCw/YJXZi88V+Anwx6BVApdzr0BjUXjAQRToUSZaxzLijRmPcEaRx+YjbKZYcnaX7rSlDFhZHD9s6PF4UvJo5z37A9VK2dJTDJwPvi2Q0+NXSLNx4tYllSSMVdDorAyGvDww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2nVdsKg52EKFtrIzMTrdXbCEyHanF/Xj2LSIdWzuxnM=;
+ b=Dc4iIph/bv5L1cimv18nCy5s+mb9l5YqJyAnRZ1qx0s2qE/R0+KCPZR86VYSKZf80BzgNkSrgY0syqGYvsd/lVJysDwREiYLjZ1AVdhGtDj13JQt7XvPTrbTnZj1M950uhjLwD2BJPVdSXd9hSTstfPH1yzIfKWFdk2hl/NE8ZE5hpcE0+rtxSq5snHGU8MZojnAtqzmhX/6g3DOr42ZfH9fB163yOtdcoPhF/nNRRqW7RFYEFZBoKdRxRLZiQeLeM7+ObenoEr77NR/5dZXBZ/6tHpcgF31QlPSVEo6Pw9+X5TQBVi2vGpjU3bV4ZrH+1oTgvtgoMCvqo22GoIXQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=icmanage.com smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+Received: from SN7PR04CA0074.namprd04.prod.outlook.com (2603:10b6:806:121::19)
+ by MW2PR02MB3866.namprd02.prod.outlook.com (2603:10b6:907:4::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Thu, 15 Jul
+ 2021 22:09:23 +0000
+Received: from SN1NAM02FT0011.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:121:cafe::e2) by SN7PR04CA0074.outlook.office365.com
+ (2603:10b6:806:121::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
+ Transport; Thu, 15 Jul 2021 22:09:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; icmanage.com; dkim=none (message not signed)
+ header.d=none;icmanage.com; dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0011.mail.protection.outlook.com (10.97.5.171) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4331.21 via Frontend Transport; Thu, 15 Jul 2021 22:09:23 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 15 Jul 2021 15:09:22 -0700
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Thu, 15 Jul 2021 15:09:22 -0700
+Envelope-to: icm_monitor@icmanage.com
+Received: from [172.19.220.140] (port=42060 helo=icmanage5.xilinx.com)
+	by smtp.xilinx.com with esmtp (Exim 4.90)
+	(envelope-from <icmanage@xilinx.com>)
+	id 1m49Xm-0000Sp-PE
+	for icm_monitor@icmanage.com; Thu, 15 Jul 2021 15:09:22 -0700
+Received: by icmanage5.xilinx.com (Postfix, from userid 1000)
+	id BB2162EE; Thu, 15 Jul 2021 15:09:22 -0700 (PDT)
+To: <icm_monitor@icmanage.com>
+Subject: mysql replication status from icmanage5
+Message-ID: <20210715220922.BB2162EE@icmanage5.xilinx.com>
+Date: Thu, 15 Jul 2021 15:09:22 -0700
+From: <icmanage@xilinx.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0ce948cf-f803-406b-7ea8-08d947dd33e9
+X-MS-TrafficTypeDiagnostic: MW2PR02MB3866:
+X-Microsoft-Antispam-PRVS: <MW2PR02MB3866717A241E73557317BC36BC129@MW2PR02MB3866.namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5jvcXoIeUlxGHn+skww7wBKvNcm6AtIVugkbYik+q6zSzPewsZLCA44fQF0wGWmWRK3sqj1Ux0q1pXWdqCSCPE+97TB1fXaGs/Zawt+CI5Vorsyx9lzRYccI5Kqs1L9+5IXVAmxn/kh9jD/wx9rV2y3Bwr//Upy0MlMJ7CLrGobHX6w0PX3IGfE0GI4d16YFD0fF8sLo5YP7NMYy0fD3+fpS+FipJ5w/fMVEt83BafPk4hMLwfz/2WJh8/0rgs7Kyikn/VpzxYge7GcNP2EDrU6eC+DotaIod1JFHHvqFIDNYUG6+yZFz5NR/yd5yQDp7baUgVfJsWzOCqJcGAV4q4jGBUNLtw9zmYJDLs9ttui8/Biw8V2J/bD4qyqORA2obZqouh75tycF/zNrbrjLStyGfeWUHbV++yeZDO3OVhJG3LS31ZgK9NtMIbVgq5a7D0ibvLcdNufJs9QntQ3agXws5xH97A5gXBIVuBXnglVYP1n0U4a6Mj/lszpnysNslNQ4Z5CXMVpGLUbEcc6Yb2KWMYKzUiFBZ/0Z78xXJ2NsEp+0bGmYVIxRuHlkW9BzoplYO1PzDjUNumPmNKnQOpI8Tr4TKbgVajqdLeXwisD9TZ1nO2pY3Q0kuskFPFLrrYB+GvqjdJCFG/oFATTN1Nme1wWiAE4ECx3lJEtSn3PWEqklW25I7vAg4el3y6By0XZunYRjUITcv1UCGlV46KwxHQWyxWEYn3HCDiXpxYc=
+X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(376002)(396003)(39860400002)(346002)(136003)(36840700001)(46966006)(42186006)(6266002)(82310400003)(5660300002)(86362001)(1076003)(7636003)(33656002)(2906002)(186003)(4744005)(316002)(426003)(83380400001)(478600001)(82740400003)(6916009)(8936002)(47076005)(356005)(8676002)(70206006)(36860700001)(336012)(70586007)(2876002)(26005)(102446001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2021 22:09:23.3101
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ce948cf-f803-406b-7ea8-08d947dd33e9
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0011.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR02MB3866
+X-Original-Sender: icmanage@xilinx.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com
+ header.b=B42MNjvi;       arc=pass (i=1 spf=pass spfdomain=xilinx.com
+ dmarc=pass fromdomain=xilinx.com);       spf=pass (google.com: domain of
+ icmanage@xilinx.com designates 40.107.101.75 as permitted sender)
+ smtp.mailfrom=icmanage@xilinx.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xilinx.com
+Precedence: list
+Mailing-list: list icm_monitor@icmanage.com; contact icm_monitor+owners@icmanage.com
+List-ID: <icm_monitor.icmanage.com>
+X-Spam-Checked-In-Group: icm_monitor@icmanage.com
+X-Google-Group-Id: 391206100820
+List-Post: <https://groups.google.com/a/icmanage.com/group/icm_monitor/post>, <mailto:icm_monitor@icmanage.com>
+List-Help: <https://support.google.com/a/icmanage.com/bin/topic.py?topic=25838>,
+ <mailto:icm_monitor+help@icmanage.com>
+List-Archive: <https://groups.google.com/a/icmanage.com/group/icm_monitor/>
+List-Subscribe: <https://groups.google.com/a/icmanage.com/group/icm_monitor/subscribe>,
+ <mailto:icm_monitor+subscribe@icmanage.com>
+List-Unsubscribe: <mailto:googlegroups-manage+391206100820+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/icmanage.com/group/icm_monitor/subscribe>
+
+Host            Port  Name                      IO Thread SQL Thread     La=
+g
+172.19.220.143  3306  icmanage6                       Yes        Yes       =
+0
+172.20.19.165   3306  xco-icmanagebkup                Yes        Yes       =
+0
+172.19.220.64   3306  xsjicmenvision              UNKNOWN    UNKNOWN UNKNOW=
+N
+172.19.4.122    3306  xsjsilpub                   UNKNOWN    UNKNOWN UNKNOW=
+N
+10.17.4.122     3306  xsjicmedge                      Yes        Yes       =
+0
+172.23.66.95    3307  xhdicmsuper_new                 Yes        Yes       =
+0
+172.21.7.191    3306  xiricmsuper                     Yes        Yes       =
+0
+
+Sent by
+Host:    icmanage5
+User:    icmanage
+Program: check_sqlrep
+This email and any attachments are intended for the sole use of the named r=
+ecipient(s) and contain(s) confidential information that may be proprietary=
+, privileged or copyrighted under applicable law. If you are not the intend=
+ed recipient, do not read, copy, or forward this email message or any attac=
+hments. Delete this email message and any attachments immediately.

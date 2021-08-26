@@ -1,0 +1,14 @@
+#Docker logs only shows the stderr and stdout of the container's first process. Since 
+#I use 'cron -n' to run my py script in a cronjob, I need out redirect all output:
+#(2> is for  stderr, 1> is stdout)
+* * * * * /root/test.py 2>/proc/1/fd/2 1>/proc/1/fd/1 
+
+#Docker's default logging driver doesn't do log rotation. Add this in /etc/docker/daemon.json
+#to use the 'local' logging driver, which has log rotation by default.
+{
+  "log-driver": "local",
+  "log-opts": {
+    "max-size": "10m"
+  }
+}
+
