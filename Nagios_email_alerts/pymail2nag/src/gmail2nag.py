@@ -5,6 +5,7 @@ import os
 import sys
 import atexit
 import subprocess
+import json
 from mailreader import GMailer
 
 global pid_file
@@ -21,8 +22,12 @@ def main():
     parser.add_argument('-d', '--defaults', dest='def_env', default=False, action='store_true', help='Set default environment variables.')
     parser.add_argument('-L', '--log', dest='log_file', default="", required=False, help='File will log all stdout.')
     parser.add_argument('-m', '--limit', dest='email_limit', default=0, type=int, required=False, help='Limit the number of emails processed in one go.')
-    parser.add_argument('-j', '--jsonfile', dest='json_db_file', required=False, default=os.curdir + "/g2n.json", help='The JSON formatted file that stores information scraped from emails.')
+    parser.add_argument('-j', '--jsonfile', dest='json_db_file', required=False, default=os.curdir + "/g2n.json",
+                        help='JSON formatted file that stores information scraped from emails. Put in current directory by default.')
     parser.add_argument('-e', '--emlfile', dest='email_file', required=False, default="", help='Process an .eml file, usually for testing purposes.')
+    parser.add_argument('--rm', dest='rm_cust', required=False, default="", help='Remove a cusomter from the json db file.')
+    parser.add_argument('-o', '--output', dest='outdb', default=False, action='store_true',help='Pretty print contents of json db file.')
+
     args = parser.parse_args()
 
     os.environ['GM_JSON_DB_FILE'] = args.json_db_file
@@ -41,7 +46,16 @@ def main():
     else:
       loadEnvFile()
     envConfig()
-    checkEmails(args.email_limit, args.json_db_file,args.email_file)
+
+    if args.outdb:
+        printG2N(args.json_db_file)
+        sys.exit(0)
+
+    if args.rm_cust == "":
+        checkEmails(args.email_limit, args.json_db_file,args.email_file)
+    else:
+        delCustomer(args.rm_cust,args.json_db_file)
+
 
 def loadDefEnv():
     """
@@ -50,7 +64,8 @@ def loadDefEnv():
     logging.info("Using default environment variables.")
     envjson = {
       "GM_URL":"imap.gmail.com",
-      "GM_MAILBOX_NAME":"monitor_spam",
+      #"GM_MAILBOX_NAME":"monitor_spam",
+        "GM_MAILBOX_NAME": "Inbox",
       "GM_MAIL_STATUS":"UNSEEN",
       "GM_USERNAME":"jeremy.yung@icmanage.com",
       "GM_API_PW":"zeilvzlgjqiozsxx",
@@ -133,6 +148,21 @@ def checkEmails(lim,jsfilepath,emlfile):
         else:
             logging.warning("EML file not found.")
             sys.exit(1)
+
+def delCustomer(srcemail, jsfilepath):
+    """
+    Removes source email specified in the '--rm' flag, from the g2n.json file.
+    """
+    with open(jsfilepath) as dbfile:
+        jsondata = json.load(dbfile)
+        del jsondata['Alerts'][srcemail]
+    with open(jsfilepath,'w') as dbfile:
+        json.dump(jsondata,dbfile)
+
+def printG2N(jsfilepath):
+    with open(jsfilepath) as dbfile:
+        print(json.dumps(json.load(dbfile),indent=2))
+
 
 def checkPID():
     """

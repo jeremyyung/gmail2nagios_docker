@@ -124,6 +124,11 @@ class GWorker:
             'status_text':bdict['status_text'],
             'program':bdict['program']
         }
+
+        if(info_payload['user'] == "UNDEFINED" or info_payload['program']== "UNDEFINED"):
+            logging.error("""UNDEFINED 'user' or 'program' in email with subject '%s'. 
+                  Format may not match the usual alert emails.""" % hdict['subject'])
+
         return (id_chain,info_payload)
 
     def writeDBJSON(self,jsonobj):

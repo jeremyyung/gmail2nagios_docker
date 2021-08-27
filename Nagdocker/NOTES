@@ -12,3 +12,18 @@
   }
 }
 
+==nagios-g2n
+#vi /opt/nagios/etc/cgi.cfg  > add the following to grant icmAdmin more nagios permissions
+authorized_for_configuration_information=icmAdmin
+
+authorized_for_all_services=icmAdmin                           
+authorized_for_all_hosts=icmAdmin  
+
+#Add the following to get 'mail' cmd working in apline. Would otherwise get authentication errors.
+#May need to make this file consistent
+vi /etc/ssmtp/ssmtp.conf
+UseTLS=YES                                               
+UseSTARTTLS=YES                                          
+AuthMethod=LOGIN                                   
+AuthUser=jeremy.yung@icmanage.com                        
+AuthPass=zeilvzlgjqiozsxx  

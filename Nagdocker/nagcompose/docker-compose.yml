@@ -3,11 +3,11 @@ services:
   g2n:
     image: gmail2nag
     environment:
-      - GM_URL=imap.gmail.com
+#      - GM_URL=imap.gmail.com
       - GM_MAILBOX_NAME=monitor_spam
       - GM_MAIL_STATUS=UNSEEN
       - GM_USERNAME=jeremy.yung@icmanage.com
-#      - GM_API_PW=zeilvzlgjqiozsxx
+      - GM_API_PW=zeilvzlgjqiozsxx
     volumes: 
       - g2n_db:/opt/g2nout
     container_name: g2n
@@ -21,6 +21,7 @@ services:
       - NAGIOSADMIN_PASS=icmAdmin
       - G2N_FILE=/opt/g2nout/g2n.json
     volumes:
+      - nag:/opt/nagios
       - nag_etc:/opt/nagios/etc
       - nag_libexec:/opt/nagios/libexec
       - g2n_db:/opt/g2nout
@@ -30,5 +31,6 @@ services:
 
 volumes:
   g2n_db:
+  nag:
   nag_etc:
   nag_libexec:

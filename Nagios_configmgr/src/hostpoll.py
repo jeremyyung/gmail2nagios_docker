@@ -11,10 +11,11 @@ hostname = sys.argv[2]
 svc_name = sys.argv[3]
 exit_codes = {'OK':0,'ok':0,'WARNING':1,'warning':1,'CRITICAL':2,'critical':2,'UNKNOWN':3,'unknown':3}
 
-#Get email alert status (status, status_text,date) from g2n DB file.
+#Reads json db file specified in environment variable ($G2N_FILE). Should be specified in docker-compose file. 
 if os.getenv('G2N_FILE') != None:
   g2n_file = os.getenv('G2N_FILE')
 else:
+  #Just a default path.
   g2n_file = '/home/jeremy/Desktop/RC2GD/Projects/Nagios_configmgr/testdir/g2n.json'
 
 with open(g2n_file, 'r') as rfile:
