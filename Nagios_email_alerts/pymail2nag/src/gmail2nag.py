@@ -64,8 +64,7 @@ def loadDefEnv():
     logging.info("Using default environment variables.")
     envjson = {
       "GM_URL":"imap.gmail.com",
-      #"GM_MAILBOX_NAME":"monitor_spam",
-        "GM_MAILBOX_NAME": "Inbox",
+      "GM_MAILBOX_NAME":"monitor_spam",
       "GM_MAIL_STATUS":"UNSEEN",
       "GM_USERNAME":"jeremy.yung@icmanage.com",
       "GM_API_PW":"zeilvzlgjqiozsxx",
