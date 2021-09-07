@@ -167,10 +167,12 @@ def genHostFiles(obj_dict,fpaths):
     return
 
 def getAddrCust(addrstr):
-    match = 'aanonymous'
+    match = 'UNKNOWN'
     for cust,elist in address_map:
         if elist.split(',').__contains__(addrstr):
             match = cust
+    if match == 'UNKNOWN':
+        print("%s marked as UNKNOWN customer, double-check nagmanager.cfg under [ADDRESS_MAPPING]." % addrstr)
     return match
 
 def writeFile(fpath,text):
