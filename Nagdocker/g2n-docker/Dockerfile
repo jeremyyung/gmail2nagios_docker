@@ -16,6 +16,5 @@ RUN chmod 0644 /etc/cron.d/cronfile && crontab /etc/cron.d/cronfile
 COPY ./envecho.sh /opt/
 
 #Starts crond in the foreground
-#CMD ["crond","-n"]
 CMD ["sh","-c","bash /opt/envecho.sh; crond -n"]
 

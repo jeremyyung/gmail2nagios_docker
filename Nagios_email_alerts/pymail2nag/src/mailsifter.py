@@ -14,7 +14,6 @@ class GWorker:
         dbtext = self.getDBJSON()
         self.updateDB(id_chain, info_payload, dbtext)
         print("%s: Updating %s > Host(%s) > Script(%s) in db file" % (
-            #datetime.now().time().strftime("%Y/%m/%d - %H:%M(%Z)"),
             datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             id_chain['origin_email'],
             id_chain['hostname'],

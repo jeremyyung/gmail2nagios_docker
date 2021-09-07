@@ -134,7 +134,9 @@ def checkEmails(lim,jsfilepath,emlfile):
             tracker = emailer.getMsgCount()
             while tracker != 0:
                 try:
-                    emailer.dumpEmails(jspath=jsfilepath)
+                    if emailer.dumpEmails(jspath=jsfilepath):
+                        print("All emails processed, stopping until next run.")
+                        break
                 except:
                     logging.error("Email parser error, retrying...")
                     emailer.login()

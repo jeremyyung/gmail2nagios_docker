@@ -58,9 +58,11 @@ class GMailer:
         Main method for iterating through emails and dumping their data into json DB file.
         :param jspath: Path to json DB file
         :param limiter: Number of emails to process, usually specified with "-m". Does all emails if set to 0.
-        :return:
+        :return cleanrun: If dumpEmails iterates through all msg_ids, return true to stop the script's current run.
+        Trying to avoid infinite loop in gmail2nag.checkEmails().
         """
         gw = GWorker(jspath)
+        cleanrun = False
         if limiter == 0:
             ID_list = self.msg_ids
         else:
@@ -69,7 +71,7 @@ class GMailer:
         try:
             # Convert each email ID from byte to string, then fetch the email.
             for i in ID_list:
-                logging.debug("Processing email_ID %s" % i)
+                logging.debug("Processing email_ID %s" % str(i).replace("b\'", ""))
                 m_id = i.decode('UTF-8')
                 f_reply, f_msg = self.imap.fetch(m_id, "(RFC822)")
                 # Strip out important information from email data.
@@ -79,10 +81,13 @@ class GMailer:
                         self.fieldSort(gw, msg)
 
                 #Delete the email thread
-                self.imap.store(i, '+FLAGS', '\\Deleted')
+                logging.debug("Adding 'Deleted' tag to email:")
+                logging.debug(self.imap.store(i, '+FLAGS', '\\Deleted'))
+            cleanrun = True
         except:
             logging.warning("Something went wrong while processing email.")
             raise
+        return cleanrun
 
     def dumpFile(self,jspath,email_file):
         """
