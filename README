@@ -1,0 +1,1 @@
+Summary: This contains everything needed to run a Nagios container that monitors customer alert emails. Recommend looking at Nagdocker/Docs/README first.

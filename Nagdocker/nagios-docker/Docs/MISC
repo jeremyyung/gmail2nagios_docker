@@ -1,0 +1,19 @@
+===MISC===
+
+#Add the following to get 'mail' cmd working in apline. Would otherwise get authentication errors.
+#May need to make this file consistent
+vi /etc/ssmtp/ssmtp.conf
+hostname=nagmon
+UseTLS=YES                                               
+UseSTARTTLS=YES                                          
+AuthMethod=LOGIN                                   
+AuthUser=jeremy.yung@icmanage.com                        
+AuthPass=zeilvzlgjqiozsxx  
+
+==nagios-docker/Dockerfile
+*FROM manios/nagios
+This nagios container has NAGIOSADMIN_* variables, which overwrite the default admin credentials.
+
+As a result, you need to grant them GUI permissions.
+#vi /opt/nagios/etc/cgi.cfg  > Used wildcards for all permissions to grant icmAdmin nagios permissions
+authorized_for_configuration_information=*

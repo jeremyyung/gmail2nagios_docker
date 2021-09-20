@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 import configparser
 import os
 import argparse
@@ -38,9 +37,9 @@ def main():
         address_map = nconf.items('ADDRESS_MAPPING')
 
         #Start creating nagios obj files
-        g2n_json = getG2N(g2n_path)
         created_paths = makeSkeleton(nagios_dir)
         setCmdCfg(created_paths)
+        g2n_json = deDupe(getG2N(g2n_path))
         makeObjects(g2n_json, created_paths)
 
         #Check if nagios.cfg file has correct cfg_dir param set
@@ -49,6 +48,29 @@ def main():
 
     except OSError as e:
         logging.error(e)
+
+def deDupe(g2njson):
+    '''Some hosts send emails from different sources. This trips up nagios, so I have to add --#-- postfixs.
+    When a service calls hostpoll.py, it will remove this prefix.'''
+    clean_g2n = g2njson
+    host_src_list = {}
+    for srcaddr in clean_g2n['Alerts']: #Make list of {hostname:[srcaddrs]}.
+        hostdict = g2njson['Alerts'][srcaddr]['Hosts']
+        for hostname in hostdict:
+            if not host_src_list.keys().__contains__(hostname):
+                host_src_list[hostname] = [srcaddr]
+            elif not host_src_list[hostname].__contains__(srcaddr):
+                host_src_list[hostname].append(srcaddr)
+    for host in host_src_list: #Go through above list, if a host has > 1 source address, add --#-- postfix.
+        if len(host_src_list[host]) > 1:
+            #Deletes orignial host data and re-adds it with postfixed hostname.
+            for index,srcaddr in enumerate(host_src_list[host]):
+                hostnum = '%s--%s--' % (host,str(index))
+                origdata = g2njson['Alerts'][srcaddr]['Hosts'][host]
+                del clean_g2n['Alerts'][srcaddr]['Hosts'][host]
+                clean_g2n['Alerts'][srcaddr]['Hosts'][hostnum] = origdata
+
+    return clean_g2n
 
 def getG2N(g2npath):
     logging.info("--Reading g2n.json file %s" % g2npath)
@@ -99,10 +121,9 @@ def setCmdCfg(created_paths):
     writeFile(cfgpath,temptext)
 
 def makeObjects(g2njson, fpaths):
-    obj_dict = {} #List used to generate "/0_configs" files and client host files.
-    svc_dict = {} #List used to generate "/1_services/custservice.cfg" file.
+    obj_dict = {} #Files that go in "/0_configs"
+    svc_dict = {} #Data that goes in "/1_services/custservice.cfg"
     for srcaddr in g2njson['Alerts']:
-
         #Match source address with customer name, stores in obj_dict.
         customer_name = getAddrCust(srcaddr)
         if not obj_dict.keys().__contains__(customer_name):
@@ -152,16 +173,28 @@ def genHostFiles(obj_dict,fpaths):
 
         for host in svrdicts.keys():
             src_list = svrdicts[host]['source']
-            #Some hosts use different 'source' addresses for certain scripts. Not sure why, but this is a quick fix.
             if len(src_list) == 1:
                 cfgfile = "%s/%s.cfg" % (ppath, host)
                 t_text = template_text['hostobj.cfg'] % (host, src_list[0])
                 writeFile(cfgfile,t_text)
             else:
                 for index,saddr in enumerate(src_list):
-                    cfgfile = "%s/%s-%s.cfg" % (ppath, host, index)
+                    enum_name = "%s<%s>" % (host,index)
+                    cfgfile = "%s/%s.cfg" % (ppath, enum_name)
                     t_text = template_text['hostobj.cfg'] % (host, saddr)
                     writeFile(cfgfile, t_text)
+            # #Some hosts use different 'source' addresses for certain scripts. Not sure why, but this is a quick fix.
+            # if len(src_list) == 1:
+            #     cfgfile = "%s/%s.cfg" % (ppath, host)
+            #     t_text = template_text['hostobj.cfg'] % (host, src_list[0])
+            #     writeFile(cfgfile,t_text)
+            # else:
+            #     #If it finds a host with > 1 source email, append an <index number> to create unique hosts and filenames.
+            #     for index,saddr in enumerate(src_list):
+            #         enum_name = "%s<%s>" % (host,index)
+            #         cfgfile = "%s/%s.cfg" % (ppath, enum_name)
+            #         t_text = template_text['hostobj.cfg'] % (enum_name, saddr)
+            #         writeFile(cfgfile, t_text)
 
     writeFile(hgrp_cfg_file_path,hgrp_stack)
     return

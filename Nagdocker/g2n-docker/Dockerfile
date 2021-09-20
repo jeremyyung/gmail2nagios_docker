@@ -7,7 +7,7 @@ RUN yum install -y git crontabs cronie && rm -rf /etc/cron.*/*
 WORKDIR /opt
 RUN mkdir /opt/g2nout
 RUN git clone https://github.com/jeremyyung/gmail2nagios_docker.git
-RUN chmod +x /opt/gmail2nagios_docker/Nagios_email_alerts/pymail2nag/src/gmail2nag.py
+RUN chmod +x /opt/gmail2nagios_docker/Nagios_email_alerts/gmail2nag/src/gmail2nag.py
 
 #Setup cronjob by copying over cronfile
 COPY ./cronfile /etc/cron.d/cronfile

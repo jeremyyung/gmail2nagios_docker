@@ -17,6 +17,7 @@ services:
     ports:
       - "0.0.0.0:8080:80"
     environment:
+      #NAGIOSADMIN env variables sets credentials that let you log into Nagios GUI.
       - NAGIOSADMIN_USER=icmAdmin
       - NAGIOSADMIN_PASS=icmAdmin
       - G2N_FILE=/opt/g2nout/g2n.json
@@ -26,8 +27,6 @@ services:
       - nag_libexec:/opt/nagios/libexec
       - nag_ssmtp:/etc/ssmtp
       - g2n_db:/opt/g2nout
-    depends_on:
-      - g2n
     container_name: nagios
 
 volumes:

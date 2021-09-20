@@ -1,0 +1,14 @@
+Nagmanager.py general workflow:
+1. Ensure Nagios server is up and running or at least that the file structure is there. (defined in nagmanager.cfg)
+  -Also assumes a g2n.json file is accessible somewhere. Also specified in the nagmanager.cfg file.
+2. Run Nagmanager.py and it should tell you if files were created successfully.
+3. Run "/opt/nagios/bin/nagios -v /opt/nagios/etc/nagios.cfg" to verify your config files are valid.
+  -Any warnings that mention the hosts themselves can be ignored. I disabled all Nagios-related host checks, since we're just checking email status updates
+4. Restart nagios to apply your settings.
+
+==MISC==
+hostpoll.py: Relies on the G2N_FILE environment variable to locate the g2n.json file. 
+
+How to verify Nagios config files:
+/opt/nagios/bin/nagios -v /opt/nagios/etc/nagios.cfg
+

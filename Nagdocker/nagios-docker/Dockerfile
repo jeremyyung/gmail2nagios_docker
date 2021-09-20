@@ -15,6 +15,7 @@ RUN sed -i 's/g2n_file = .*/g2n_file = \/opt\/g2nout\/g2n.json/g' /opt/nagios/py
 
 #Main script used by nagios checks, must be executable
 RUN chmod +x /opt/nagios/libexec/hostpoll.py
+RUN chmod +x /opt/nagios/pyfiles/nagmanager.py
 
 #Copy over cfg files to (1)grant icmAdmin nagios permissions (2) let nagios send emails using my api key (change later)
 COPY cgi.cfg /opt/nagios/etc/cgi.cfg

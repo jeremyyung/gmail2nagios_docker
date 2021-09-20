@@ -1,0 +1,14 @@
+Summary: Rundown of how the Nagios custom objects work together.
+
+/opt/nagios/pyfiles - Copy of the nagmanager.py config script, its config file and template file. Running nagmanager.py read the g2n.json database file (/opt/g2nout/g2n.json) and creates the custom ICM objects. When a new script or customer is added to the database, run this again to wipe the old objects and create new ones.
+
+
+*Nagios uses hostpoll.py to update a service's status on the GUI. Hostpoll.py takes 3 arguments: $HOSTADDRESS$, $HOSTNAME$ and $SERVICEDESC$. Below, is an example of where these variables are defined for a specific customer.
+
+++NOTE++: File paths shown assume PWD=/opt/nagios/etc/services/icm_objects.
+/cypress/manage2.cfg: First, start with a host definition. ($HOSTADDRESS$ = manage2.design.cypress.com, $HOSTNAME$ = manage2)
+|__ /1_services/custservice.cfg: You then attach that host to a service, which inherits the "icm-svc-template" service template. ($SERVICEDESC$ = check_space)
+  |__ /0_configs/icmtemplates.cfg: Defines "icm-svc-template" where the "check_command" parameter is set to 'test_script!$HOSTADDRESS$!$HOSTNAME$!$SERVICEDESC$'. This is how nagios knows which script to use and which parameters should be passed to it.
+    |__ /1_services/icmcommands.cfg: This where 'test_script' is defined and where you put the actual file path of hostpoll.py. In this example, each check would run "/opt/nagios/libexec/hostpoll.py manage2.design.cypress.com manage2 check_space", which returns an exit code and some text that's reflected in the GUI.
+ 
+*If you see host .cfg files named "atlicm1--0--.cfg" and "atlicm1--1--.cfg", it's because a host send emails from two differnt addresses. Since I pass one address to hostpoll.py and Nagios doesn't allow for duplicate hosts, I made this workaround. Hostpoll knows how to strip out these postfixes.

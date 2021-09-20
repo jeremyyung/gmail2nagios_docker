@@ -1,0 +1,3 @@
+Summary: This creates the g2n docker image. It runs gmail2nag.py every 10 minutes, which will create or update the g2n.json database file.
+
+Use "docker logs g2n" to see if it's actually pulling stuff from gmail.
