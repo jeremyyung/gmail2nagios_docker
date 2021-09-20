@@ -1,0 +1,28 @@
+==MISC==
+* How is the g2n.json file structured?
+  - In general, it uses the sender's email address as the main unique identifier. Pairing each email with a customer happens with the Nagios config script.
+  - I them groups each email by hostname and then by program (script) name.
+  - When you use the remove "--rm" flag, you erase everything under the sender email address. I suppose it could be more granular, but I'm lazy.
+  - Example:  
+    "Alerts": {
+      "sjlicm04.sc.intel.com": {   <source email>
+        "Hosts": {
+          "sjlicm04": {            <hostname>
+            "Programs": {
+              "check_space": {     <script name>
+                "date": "Tue,  7 Sep 2021 14:00:01",
+                "user": "icmanage",
+                "status": "WARNING",
+                "status_text": "filesystem over 85% full",
+                "program": "check_space"
+            }
+          }
+        }
+      }
+    }
+
+
+* How does this script find the sender's email address?
+  - Gmailer.fieldSort() - The first 'for' loop goes through each header and looks at each "Received:" field. When it's done, it'll choose the second to last email address and assume that's where the email originated from.
+  - Why do it this way? 1) Some customers change the "FROM:" field to icmanage.com, which doesn't help. 2) Same could be said about X-Original-Sender, which would sometimes show up as gmail.com. 
+    - This is by no means perfect, just the easiest solution I could think of. There may be an easier way that I'm not seeing.
