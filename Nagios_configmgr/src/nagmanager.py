@@ -85,14 +85,15 @@ def makeSkeleton(nagdir):
     :param nagdir: <nagios_dir> specified in nagmanager.cfg
     :return: List of paths created by makeSkeleton, referenced by other methods.
     '''
+    obj_dir = nagdir + "/etc/services/icm_objects"
+    wipeDir(obj_dir) #Wipes old config files.
+
     logging.info('--Creating base directories.')
     gen_paths = {} #Tracks generated directories
     base_structure = {
         '0_configs': ['custcontacts.cfg','hostgroups.cfg','icmtemplates.cfg'],
         '1_services': ['custservice.cfg','icmcommands.cfg']
     }
-    obj_dir = nagdir + "/etc/services/icm_objects"
-    wipeDir(obj_dir) #Wipes old config files.
 
     logging.debug('Creating %s' % obj_dir)
     os.makedirs(obj_dir, exist_ok=True)
@@ -154,7 +155,10 @@ def genService(svc_dict, fpaths):
     fpath = "%s/%s" % (fpaths['1_services'], fname)
     for svc in svc_dict.keys():
         hlist_str = ','.join(svc_dict[svc])
-        temp_text = template_text[fname] % (hlist_str,svc)
+        if svc in ['check_file_rep', 'check_change_counter', 'check_sqlrep']:
+            temp_text = template_text['svc-send-notice.cfg'] % (hlist_str,svc)
+        else:
+            temp_text = template_text['svc-no-notice.cfg'] % (hlist_str,svc)
         text_stack.append(temp_text)
     writeFile(fpath,"\n\n".join(text_stack))
 
@@ -183,18 +187,6 @@ def genHostFiles(obj_dict,fpaths):
                     cfgfile = "%s/%s.cfg" % (ppath, enum_name)
                     t_text = template_text['hostobj.cfg'] % (host, saddr)
                     writeFile(cfgfile, t_text)
-            # #Some hosts use different 'source' addresses for certain scripts. Not sure why, but this is a quick fix.
-            # if len(src_list) == 1:
-            #     cfgfile = "%s/%s.cfg" % (ppath, host)
-            #     t_text = template_text['hostobj.cfg'] % (host, src_list[0])
-            #     writeFile(cfgfile,t_text)
-            # else:
-            #     #If it finds a host with > 1 source email, append an <index number> to create unique hosts and filenames.
-            #     for index,saddr in enumerate(src_list):
-            #         enum_name = "%s<%s>" % (host,index)
-            #         cfgfile = "%s/%s.cfg" % (ppath, enum_name)
-            #         t_text = template_text['hostobj.cfg'] % (enum_name, saddr)
-            #         writeFile(cfgfile, t_text)
 
     writeFile(hgrp_cfg_file_path,hgrp_stack)
     return
