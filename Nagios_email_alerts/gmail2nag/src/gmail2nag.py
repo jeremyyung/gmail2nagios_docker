@@ -7,6 +7,8 @@ import atexit
 import subprocess
 import json
 from mailreader import GMailer
+import datetime
+import signal
 
 global pid_file
 pid_file = '/tmp/p2n.pid'
@@ -179,7 +181,17 @@ def checkPID():
         process_search = subprocess.check_output(['ps', '-f', '--pid', str(filepid)]).decode('utf-8')
         is_running = process_search.__contains__('gmail2nag.py')
         if is_running:
-            logging.warning("Previous instance still running, exiting without wiping PID file.")
+            logging.warning("Previous instance is running, exiting.")
+
+            #If PID file is found but json file hasn't been modified in a day, terminate previous instance
+            json_file = os.environ['GM_JSON_DB_FILE']
+            jsfile_lastmod_ts = datetime.datetime.fromtimestamp(os.path.getmtime(json_file))
+            days_last_modified = (datetime.datetime.now() - jsfile_lastmod_ts).days
+            if(days_last_modified >= 1):
+                logging.warning("%s hasn't been updated in %s day, killing previous instance." %
+                                (json_file, days_last_modified))
+                os.remove(pid_file)
+                os.kill(int(filepid), signal.SIGTERM)
             os._exit(1)
         else:
             logging.info("Found PID but it's not running this script. Recreating PID file before continuing.")
