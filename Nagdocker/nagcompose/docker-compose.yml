@@ -8,6 +8,7 @@ services:
       - GM_MAIL_STATUS=UNSEEN
       - GM_USERNAME=jeremy.yung@icmanage.com
       - GM_API_PW=zeilvzlgjqiozsxx
+      - TZ=America/Los_Angeles
     volumes: 
       - g2n_db:/opt/g2nout
     container_name: g2n
@@ -21,11 +22,13 @@ services:
       - NAGIOSADMIN_USER=icmAdmin
       - NAGIOSADMIN_PASS=icmAdmin
       - G2N_FILE=/opt/g2nout/g2n.json
+      - TZ=America/Los_Angeles
     volumes:
       - nag:/opt/nagios
       - nag_etc:/opt/nagios/etc
       - nag_libexec:/opt/nagios/libexec
       - nag_ssmtp:/etc/ssmtp
+      - nag_var:/opt/nagios/var #makes status.dat file (comments, status info, etc.) persistant
       - g2n_db:/opt/g2nout
     container_name: nagios
 
@@ -35,3 +38,5 @@ volumes:
   nag_etc:
   nag_libexec:
   nag_ssmtp:
+  nag_var:
+
